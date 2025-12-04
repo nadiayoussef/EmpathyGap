@@ -153,12 +153,6 @@ const EmpathyQuiz = () => {
             <h1 className="text-5xl md:text-7xl font-bold text-[#4A4A4A] mb-8 text-center">
               You have an<br />empathy gap
             </h1>
-            <button
-              onClick={resetQuiz}
-              className="text-xl text-[#4A4A4A] underline hover:text-[#7FB3D5] mt-8"
-            >
-              Learn about empathy gaps →
-            </button>
           </>
         )}
 
@@ -167,12 +161,6 @@ const EmpathyQuiz = () => {
             <h1 className="text-5xl md:text-7xl font-bold text-[#4A4A4A] mb-8 text-center">
               You don't have an<br />empathy gap
             </h1>
-            <button
-              onClick={resetQuiz}
-              className="text-xl text-[#4A4A4A] underline hover:text-[#7FB3D5] mt-8"
-            >
-              Learn about empathy gaps →
-            </button>
           </>
         )}
 
@@ -181,12 +169,6 @@ const EmpathyQuiz = () => {
             <h1 className="text-5xl md:text-7xl font-bold text-[#4A4A4A] mb-8 text-center">
               Hmm... you might<br />just be rude...
             </h1>
-            <button
-              onClick={resetQuiz}
-              className="text-xl text-[#4A4A4A] underline hover:text-[#7FB3D5] mt-8"
-            >
-              Learn about empathy gaps anyway →
-            </button>
           </>
         )}
 
