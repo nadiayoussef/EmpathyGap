@@ -244,9 +244,9 @@ const EmpathyQuiz = () => {
                 position: 'absolute',
                 top: '50%',
                 left: `calc(${((currentQuestion + 1) / 10) * 100}% - 6px)`,
-                transform: 'translate(-50%, -50%) rotate(180deg)',
-                width: '50px',
-                height: '50px',
+                transform: 'translate(-50%, -50%)',
+                width: '70px',
+                height: '70px',
                 transition: 'left 0.5s ease',
                 zIndex: 10
               }}
