@@ -23,7 +23,7 @@ const App = () => {
       </nav> */}
 
       {view === "quiz" && <EmpathyQuiz />}
-      {view === "results" && <QuizResultsChart width={3756} height={2100} />}
+      {view === "results" && <QuizResultsChart width={4756} height={2200} />}
     </div>
   );
 };
