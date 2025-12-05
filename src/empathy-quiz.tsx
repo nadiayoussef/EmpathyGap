@@ -4,7 +4,7 @@ import fingerPointPic from './assets/images/fingerPointPic.png';
 import heartPic from './assets/images/heartPic.png';
 import restingGap1 from './assets/images/restingGap1.png';
 import restingGap2 from './assets/images/restingGap2.png';
-// Result screen images
+
 import pinkGap1 from './assets/images/pinkGap1.png';
 import pinkGap2 from './assets/images/pinkGap2.png';
 import blueGap1 from './assets/images/blueGap1.png';

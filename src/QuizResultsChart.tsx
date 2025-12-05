@@ -189,8 +189,8 @@ export const QuizResultsChart = ({ width, height }: QuizResultsChartProps) => {
     : null;
 
   return (
-    <div className='chart-wrapper'>
-      <svg width="100%" height={height}
+    <div>
+      <svg width="200%" height={height}
       viewBox='0 0 ${width} ${height}'
       preserveAspectRatio='none'>
         <rect width={width} height={height} fill="#fffaf0" />
