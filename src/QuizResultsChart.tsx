@@ -190,7 +190,7 @@ export const QuizResultsChart = ({ width, height }: QuizResultsChartProps) => {
 
   return (
     <div>
-      <svg width="200%" height={height}
+      <svg width="100%" height={height}
       viewBox='0 0 ${width} ${height}'
       preserveAspectRatio='none'>
         <rect width={width} height={height} fill="#fffaf0" />
