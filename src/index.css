@@ -35,6 +35,6 @@ body {
 }
 
 .chart-wrapper svg {
-  width: 100%;
+  width: 200%;
   display: block; /* removes unwanted right whitespace */
 }
