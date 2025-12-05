@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-
-// Replace these with your actual image paths
-const artboard11 = '/path/to/artboard-1-1.png';
-const artboard1 = '/path/to/artboard-1.png';
-const untitledArtwork21 = '/path/to/untitled-artwork-2-1.png';
+import leftGapPic from './assets/images/leftGap.png';
+import rightGapPic from './assets/images/rightGap.png';
+import handPic from './assets/images/hand.png';
+import fingerPointPic from './assets/images/fingerPointPic.png';
+import heartPic from './assets/images/heartPic.png';
 
 const API_KEY = '$2a$10$2SJqBeF.2mExcuqvz0lO.e/VxRbWDCz0mEk/lWJs7vrWgVYFf1aR6';
 const BIN_ID = '69304915ae596e708f80f833';
@@ -15,16 +15,16 @@ const EmpathyQuiz = () => {
   const [responseCount, setResponseCount] = useState(0);
 
   const questions = [
-    "Have you taken a stranger's photo for them?",
-    "Have you held the door open for someone recently?",
-    "Have you recently started a conversation with a stranger?",
-    "Have you listened to a friend share their feelings recently?",
-    "Would you help someone who asks for directions?",
     "When you entered, did anyone hold the door for you?",
     "If you dropped something, would anyone help?",
     "Would people here compliment you?",
     "Would anyone here comfort you if you cried in public?",
-    "Would anyone here invite you to join their group?"
+    "Would anyone here invite you to join their group?",
+    "Have you taken a stranger's photo for them?",
+    "Have you held the door open for someone recently?",
+    "Have you recently started a conversation with a stranger?",
+    "Have you listened to a friend share their feelings recently?",
+    "Would you help someone who asks for directions?"
   ];
 
   const saveToJSONBin = async (answers: boolean[]) => {
@@ -52,7 +52,6 @@ const EmpathyQuiz = () => {
     }
   };
 
-  // Poll for new responses when on results screen
   useEffect(() => {
     if (screen !== 'result') return;
 
@@ -113,85 +112,234 @@ const EmpathyQuiz = () => {
 
   if (screen === 'intro') {
     return (
-      <main className="bg-[#fef6e3] overflow-hidden w-full min-h-screen relative">
-        {/* Decorative wave patterns - left side */}
+      <main 
+        style={{ 
+          backgroundColor: '#fef6e3',
+          width: '100vw', 
+          height: '100vh',
+          position: 'relative',
+          overflow: 'hidden'
+        }}
+      >
+        {/* Left wavy border */}
         <img
-          className="absolute top-0 left-0 h-full w-auto object-cover"
-          alt="Decorative wave pattern background layer"
-          src={artboard11}
+          src={leftGapPic}
+          alt=""
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            height: '100%',
+            width: 'auto',
+            opacity: 0.5
+          }}
         />
+
+        {/* Right wavy border */}
         <img
-          className="absolute top-0 left-0 h-full w-auto object-cover"
-          alt="Decorative wave pattern background layer"
-          src={artboard1}
+          src={rightGapPic}
+          alt=""
+          style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            height: '100%',
+            width: 'auto',
+            opacity: 0.5
+          }}
         />
         
-        {/* Pink background bar */}
-        <div
-          className="absolute top-0 left-0 w-[341px] h-full bg-[#f8c0cc]"
-          aria-hidden="true"
-        />
-        
-        {/* Main content */}
-        <div className="relative min-h-screen flex flex-col items-center justify-center px-8">
-          <h1 className="font-['Rokkitt',serif] font-bold text-[#403027] text-7xl md:text-9xl text-center tracking-[0] leading-tight mb-12">
+        {/* Main content - centered using absolute positioning */}
+        <div 
+          style={{ 
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            zIndex: 10,
+            textAlign: 'center'
+          }}
+        >
+          <h1 
+            style={{ 
+              fontFamily: "'Rockwell', serif",
+              fontWeight: 'bold',
+              color: '#403027',
+              fontSize: '8rem',
+              lineHeight: 1.1,
+              marginBottom: '2rem',
+              margin: '0 0 2rem 0'
+            }}
+          >
             What would<br />YOU do?
           </h1>
           
           {/* Button */}
           <button
             onClick={() => setScreen('quiz')}
-            className="bg-[#7ca0c2] rounded-[17px] px-16 py-6 font-['Rokkitt',serif] font-bold italic text-[#fef6e3] text-4xl md:text-5xl tracking-[0] cursor-pointer hover:opacity-90 transition-opacity"
-            aria-label="Find out what you would do"
+            style={{
+              backgroundColor: '#7ca0c2',
+              borderRadius: '17px',
+              padding: '1.5rem 4rem',
+              fontFamily: "'Rockwell', serif",
+              fontWeight: 'bold',
+              fontStyle: 'italic',
+              color: '#fef6e3',
+              fontSize: '3rem',
+              cursor: 'pointer',
+              border: 'none',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '1rem'
+            }}
           >
             Find out
+            <img 
+              src={handPic} 
+              alt="" 
+              style={{ 
+                width: '60px', 
+                height: '60px',
+                objectFit: 'contain'
+              }} 
+            />
           </button>
         </div>
-        
-        {/* Hand illustration - bottom left */}
-        <img
-          className="absolute bottom-8 left-8 w-[150px] h-[150px] object-cover"
-          alt="Decorative hand illustration"
-          src={untitledArtwork21}
-        />
       </main>
     );
   }
 
   if (screen === 'quiz') {
     return (
-      <div className="min-h-screen bg-[#fef6e3] flex flex-col p-8">
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-2xl">✋</span>
-            <div className="flex-1 mx-4 h-8 bg-white/50 rounded-full overflow-hidden">
-              <div 
-                className="h-full bg-[#7ca0c2] transition-all duration-500"
-                style={{ width: `${progress}%` }}
+      <div 
+        style={{
+          backgroundColor: '#fef6e3',
+          width: '100vw',
+          height: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '2rem 4rem'
+        }}
+      >
+        {/* Progress Bar */}
+        <div style={{ marginBottom: '2rem', position: 'relative' }}>
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center',
+            position: 'relative',
+            height: '60px'
+          }}>
+            {/* Progress track with stripes */}
+            <div style={{
+              flex: 1,
+              height: '24px',
+              borderRadius: '12px',
+              background: `repeating-linear-gradient(
+                -45deg,
+                #7ca0c2,
+                #7ca0c2 10px,
+                #fef6e3 10px,
+                #fef6e3 20px
+              )`,
+              position: 'relative'
+            }}>
+              {/* Hand indicator */}
+              <img 
+                src={fingerPointPic}
+                alt="Progress"
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: `${progress}%`,
+                  transform: 'translate(-50%, -50%) scaleX(-1)',
+                  width: '50px',
+                  height: '50px',
+                  transition: 'left 0.5s ease'
+                }}
               />
             </div>
-            <span className="text-2xl">💗</span>
+            {/* Heart at end */}
+            <img 
+              src={heartPic}
+              alt="Heart"
+              style={{
+                width: '50px',
+                height: '50px',
+                marginLeft: '1rem'
+              }}
+            />
           </div>
         </div>
 
-        <div className="flex-1 flex flex-col items-center justify-center max-w-4xl mx-auto w-full">
-          <h2 className="text-2xl font-medium text-[#403027] mb-4 font-['Rokkitt',serif]">
+        {/* Question content */}
+        <div style={{
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          maxWidth: '900px',
+          margin: '0 auto',
+          width: '100%'
+        }}>
+          <h2 style={{
+            fontFamily: "'Rockwell', serif",
+            fontWeight: 'normal',
+            color: '#403027',
+            fontSize: '2rem',
+            marginBottom: '1rem'
+          }}>
             Question {currentQuestion + 1}
           </h2>
-          <h3 className="text-4xl md:text-5xl font-bold text-[#403027] mb-16 text-center font-['Rokkitt',serif]">
+          <h3 style={{
+            fontFamily: "'Rockwell', serif",
+            fontWeight: 'bold',
+            color: '#403027',
+            fontSize: '3rem',
+            textAlign: 'center',
+            marginBottom: '4rem',
+            lineHeight: 1.2
+          }}>
             {questions[currentQuestion]}
           </h3>
 
-          <div className="flex gap-8">
+          {/* Answer Buttons */}
+          <div style={{ display: 'flex', gap: '2rem' }}>
             <button
               onClick={() => handleAnswer(true)}
-              className="bg-[#B8E6B8] hover:bg-[#A8D6A8] text-[#403027] text-3xl font-bold px-16 py-8 rounded-2xl transition-colors min-w-[200px] font-['Rokkitt',serif]"
+              style={{
+                backgroundColor: '#f66fac',
+                color: '#fef6e3',
+                fontFamily: "'Rockwell', serif",
+                fontWeight: 'normal',
+                fontStyle: 'italic',
+                fontSize: '2.5rem',
+                padding: '1.5rem 4rem',
+                borderRadius: '17px',
+                border: 'none',
+                cursor: 'pointer',
+                minWidth: '200px',
+                boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)'
+              }}
             >
               YES
             </button>
             <button
               onClick={() => handleAnswer(false)}
-              className="bg-[#f8c0cc] hover:bg-[#e8b0bc] text-[#403027] text-3xl font-bold px-16 py-8 rounded-2xl transition-colors min-w-[200px] font-['Rokkitt',serif]"
+              style={{
+                backgroundColor: '#f09924',
+                color: '#fef6e3',
+                fontFamily: "'Rockwell', serif",
+                fontWeight: 'normal',
+                fontStyle: 'italic',
+                fontSize: '2.5rem',
+                padding: '1.5rem 4rem',
+                borderRadius: '17px',
+                border: 'none',
+                cursor: 'pointer',
+                minWidth: '200px',
+                boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)'
+              }}
             >
               NO
             </button>
@@ -207,13 +355,13 @@ const EmpathyQuiz = () => {
     return (
       <div className="min-h-screen bg-[#fef6e3] flex flex-col items-center justify-center p-8">
         {result === 'gap' && (
-          <h1 className="text-5xl md:text-7xl font-bold text-[#403027] mb-8 text-center font-['Rokkitt',serif]">
+          <h1 className="text-5xl md:text-7xl font-bold text-[#403027] mb-8 text-center font-['Rockwell',serif]">
             You have an<br />empathy gap
           </h1>
         )}
 
         {result === 'no-gap' && (
-          <h1 className="text-5xl md:text-7xl font-bold text-[#403027] mb-8 text-center font-['Rokkitt',serif]">
+          <h1 className="text-5xl md:text-7xl font-bold text-[#403027] mb-8 text-center font-['Rockwell',serif]">
             You don't have an<br />empathy gap
           </h1>
         )}

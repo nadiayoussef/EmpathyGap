@@ -102,16 +102,35 @@ export const QuizResultsChart = ({ width, height }: QuizResultsChartProps) => {
 
     // X axis
     const xAxisGenerator = d3.axisBottom(xScale)
-      .ticks(10)
-      .tickFormat((d: number) => `Q${d}`);
-    svgElement
+      .ticks(10);
+    const xAxis = svgElement
       .append('g')
       .attr('transform', `translate(0,${boundsHeight})`)
       .call(xAxisGenerator);
+    xAxis.selectAll('.tick text').remove();
+
+
+  // Community label
+  xAxis.append('text')
+    .attr('x', boundsWidth / 4)
+    .attr('y', 30)
+    .attr('text-anchor', 'middle')
+    .style('font-size', '14px')
+    .style('font-weight', 'bold')
+    .text('Community');
+
+  // Personal label
+  xAxis.append('text')
+    .attr('x', (boundsWidth / 4) * 3)
+    .attr('y', 30)
+    .attr('text-anchor', 'middle')
+    .style('font-size', '14px')
+    .style('font-weight', 'bold')
+    .text('Personal');
 
     // Y axis
     const yAxisGenerator = d3.axisLeft(yScale)
-      .ticks(5)
+      .ticks(10)
       .tickFormat((d: number) => `${d}%`);
     svgElement.append('g').call(yAxisGenerator);
 

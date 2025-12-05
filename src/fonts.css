@@ -1,0 +1,13 @@
+@font-face {
+  font-family: 'Rockwell';
+  src: url('./assets/fonts/ROCK.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Rockwell';
+  src: url('./assets/fonts/Rockwell-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
