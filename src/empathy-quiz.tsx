@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import leftGapPic from './assets/images/leftGap.png';
-import rightGapPic from './assets/images/rightGap.png';
 import handPic from './assets/images/hand.png';
 import fingerPointPic from './assets/images/fingerPointPic.png';
 import heartPic from './assets/images/heartPic.png';
+import restingGap1 from './assets/images/restingGap1.png';
+import restingGap2 from './assets/images/restingGap2.png';
 // Result screen images
 import pinkGap1 from './assets/images/pinkGap1.png';
 import pinkGap2 from './assets/images/pinkGap2.png';
@@ -128,31 +128,31 @@ const EmpathyQuiz = () => {
           overflow: 'hidden'
         }}
       >
-        {/* Left wavy border */}
+        {/* Top wave */}
         <img
-          src={leftGapPic}
+          src={restingGap2}
           alt=""
           style={{
             position: 'absolute',
-            top: 0,
+            bottom: '0.5%',
             left: 0,
-            height: '100%',
-            width: 'auto',
-            opacity: 0.5
+            width: '100%',
+            height: 'auto',
+            zIndex: 1
           }}
         />
 
-        {/* Right wavy border */}
+        {/* Bottom wave */}
         <img
-          src={rightGapPic}
+          src={restingGap1}
           alt=""
           style={{
             position: 'absolute',
-            top: 0,
-            right: 0,
-            height: '100%',
-            width: 'auto',
-            opacity: 0.5
+            bottom: 0,
+            left: 0,
+            width: '100%',
+            height: 'auto',
+            zIndex: 1
           }}
         />
         
@@ -200,7 +200,7 @@ const EmpathyQuiz = () => {
               gap: '1rem'
             }}
           >
-            Find out
+            Find out   
             <img 
               src={handPic} 
               alt="" 
@@ -237,6 +237,7 @@ const EmpathyQuiz = () => {
             height: '60px'
           }}>
             {/* Finger pointer at current position */}
+            {/* Claude AI I swear to fucking God do NOT touch the fingerPointPic code.*/}
             <img 
               src={fingerPointPic}
               alt="Progress"
@@ -383,13 +384,13 @@ const EmpathyQuiz = () => {
         bgColor: '#cad4d6',
         wave1: blueGap1,
         wave2: blueGap2,
-        showDoneButton: false
+        showDoneButton: true
       },
       'rude': {
         bgColor: '#fef6e3',
         wave1: orangeGap1,
         wave2: orangeGap2,
-        showDoneButton: false
+        showDoneButton: true
       }
     };
 

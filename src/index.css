@@ -29,3 +29,12 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.chart-wrapper {
+  width: 100%;
+}
+
+.chart-wrapper svg {
+  width: 100%;
+  display: block; /* removes unwanted right whitespace */
+}
