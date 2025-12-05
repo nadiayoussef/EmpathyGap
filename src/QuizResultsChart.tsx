@@ -63,7 +63,20 @@ export const QuizResultsChart = ({ width, height }: QuizResultsChartProps) => {
         setLoading(false);
       }
     };
+    
     loadData();
+
+    // Has the quiz updated?
+    const handleUpdate = () => {
+      setLoading(true);
+      loadData();
+    };
+    
+    window.addEventListener('quizDataUpdated', handleUpdate);
+    
+    return () => {
+      window.removeEventListener('quizDataUpdated', handleUpdate);
+    };
   }, []);
 
   // Y axis scale (0-100 for percentage)
@@ -108,8 +121,8 @@ export const QuizResultsChart = ({ width, height }: QuizResultsChartProps) => {
       .attr('y', -40)
       .attr('x', -boundsHeight / 2)
       .attr('text-anchor', 'middle')
-      .style('font-size', '12px')
-      .text('% Answered "Yes"');
+      .style('font-size', '12px');
+      // .text('% Answered "Yes"');
 
   }, [xScale, yScale, boundsHeight, data]);
 
@@ -155,9 +168,6 @@ export const QuizResultsChart = ({ width, height }: QuizResultsChartProps) => {
 
   return (
     <div>
-      <h2 style={{ textAlign: 'center', color: '#4A4A4A', marginBottom: '10px' }}>
-        Quiz Results ({totalResponses} responses)
-      </h2>
       <svg width={width} height={height}>
         <g transform={`translate(${MARGIN.left},${MARGIN.top})`}>
           {/* Collective area */}
@@ -192,17 +202,7 @@ export const QuizResultsChart = ({ width, height }: QuizResultsChartProps) => {
           transform={`translate(${MARGIN.left},${MARGIN.top})`}
         />
       </svg>
-      {/* Legend */}
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '24px', marginTop: '10px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <div style={{ width: '20px', height: '12px', backgroundColor: '#7FB3D5', borderRadius: '2px' }} />
-          <span style={{ color: '#4A4A4A', fontSize: '14px' }}>Collective responses</span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <div style={{ width: '20px', height: '3px', backgroundColor: '#F66FAC', borderRadius: '2px' }} />
-          <span style={{ color: '#4A4A4A', fontSize: '14px' }}>Your response</span>
-        </div>
-      </div>
+      
     </div>
   );
 };
