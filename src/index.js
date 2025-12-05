@@ -1,6 +1,7 @@
 import ReactDOM from "react-dom";
 import { data } from "./data/";
 import { Chart } from "./Chart";
+import './index.css';
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(

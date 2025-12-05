@@ -4,6 +4,13 @@ import rightGapPic from './assets/images/rightGap.png';
 import handPic from './assets/images/hand.png';
 import fingerPointPic from './assets/images/fingerPointPic.png';
 import heartPic from './assets/images/heartPic.png';
+// Result screen images
+import pinkGap1 from './assets/images/pinkGap1.png';
+import pinkGap2 from './assets/images/pinkGap2.png';
+import blueGap1 from './assets/images/blueGap1.png';
+import blueGap2 from './assets/images/blueGap2.png';
+import orangeGap1 from './assets/images/orangeGap1.png';
+import orangeGap2 from './assets/images/orangeGap2.png';
 
 const API_KEY = '$2a$10$2SJqBeF.2mExcuqvz0lO.e/VxRbWDCz0mEk/lWJs7vrWgVYFf1aR6';
 const BIN_ID = '69304915ae596e708f80f833';
@@ -229,35 +236,48 @@ const EmpathyQuiz = () => {
             position: 'relative',
             height: '60px'
           }}>
-            {/* Progress track with stripes */}
+            {/* Finger pointer at current position */}
+            <img 
+              src={fingerPointPic}
+              alt="Progress"
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: `calc(${((currentQuestion + 1) / 10) * 100}% - 6px)`,
+                transform: 'translate(-50%, -50%) rotate(180deg)',
+                width: '50px',
+                height: '50px',
+                transition: 'left 0.5s ease',
+                zIndex: 10
+              }}
+            />
+            
+            {/* 10 segment progress bar */}
             <div style={{
+              display: 'flex',
               flex: 1,
               height: '24px',
-              borderRadius: '12px',
-              background: `repeating-linear-gradient(
-                -45deg,
-                #7ca0c2,
-                #7ca0c2 10px,
-                #fef6e3 10px,
-                #fef6e3 20px
-              )`,
               position: 'relative'
             }}>
-              {/* Hand indicator */}
-              <img 
-                src={fingerPointPic}
-                alt="Progress"
-                style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: `${progress}%`,
-                  transform: 'translate(-50%, -50%) scaleX(-1)',
-                  width: '50px',
-                  height: '50px',
-                  transition: 'left 0.5s ease'
-                }}
-              />
+              {Array.from({ length: 10 }, (_, i) => (
+                <div
+                  key={i}
+                  style={{
+                    flex: 1,
+                    height: '100%',
+                    backgroundColor: '#7ca0c2',
+                    position: 'relative',
+                    opacity: i <= currentQuestion ? 1 : 0.4,
+                    clipPath: i === 0 
+                      ? 'polygon(0 0, 100% 0, calc(100% - 12px) 100%, 0 100%)' 
+                      : i === 9 
+                        ? 'polygon(12px 0, 100% 0, 100% 100%, 0 100%)'
+                        : 'polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%)'
+                  }}
+                />
+              ))}
             </div>
+            
             {/* Heart at end */}
             <img 
               src={heartPic}
@@ -352,32 +372,189 @@ const EmpathyQuiz = () => {
   if (screen === 'result') {
     const result = getResult();
 
+    const resultConfig: { [key: string]: { bgColor: string; wave1: string; wave2: string; showDoneButton: boolean } } = {
+      'gap': {
+        bgColor: '#fef6e3',
+        wave1: pinkGap1,
+        wave2: pinkGap2,
+        showDoneButton: true
+      },
+      'no-gap': {
+        bgColor: '#cad4d6',
+        wave1: blueGap1,
+        wave2: blueGap2,
+        showDoneButton: false
+      },
+      'rude': {
+        bgColor: '#fef6e3',
+        wave1: orangeGap1,
+        wave2: orangeGap2,
+        showDoneButton: false
+      }
+    };
+
+    const config = resultConfig[result];
+
     return (
-      <div className="min-h-screen bg-[#fef6e3] flex flex-col items-center justify-center p-8">
-        {result === 'gap' && (
-          <h1 className="text-5xl md:text-7xl font-bold text-[#403027] mb-8 text-center font-['Rockwell',serif]">
-            You have an<br />empathy gap
-          </h1>
+      <div 
+        style={{
+          backgroundColor: config.bgColor,
+          width: '100vw',
+          height: '100vh',
+          position: 'relative',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        {/* Decorative waves */}
+        {result === 'no-gap' ? (
+          <>
+            {/* Blue: both waves layered at top */}
+            <img
+              src={config.wave1}
+              alt=""
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: 'auto',
+                zIndex: 1
+              }}
+            />
+            <img
+              src={config.wave2}
+              alt=""
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: 'auto',
+                zIndex: 2
+              }}
+            />
+          </>
+        ) : (
+          <>
+            {/* Pink/Orange: wave2 at top, wave1 at bottom */}
+            <img
+              src={config.wave2}
+              alt=""
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: 'auto',
+                zIndex: 1
+              }}
+            />
+            <img
+              src={config.wave1}
+              alt=""
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                width: '100%',
+                height: 'auto',
+                zIndex: 1
+              }}
+            />
+          </>
         )}
 
-        {result === 'no-gap' && (
-          <h1 className="text-5xl md:text-7xl font-bold text-[#403027] mb-8 text-center font-['Rockwell',serif]">
-            You don't have an<br />empathy gap
-          </h1>
-        )}
+        {/* Main content */}
+        <div style={{ 
+          position: 'relative', 
+          zIndex: 10, 
+          textAlign: 'center',
+          marginTop: '15%'
+        }}>
+          {result === 'gap' && (
+            <h1 style={{
+              fontFamily: "'Rockwell', serif",
+              color: '#403027',
+              fontSize: '4rem',
+              marginBottom: '2rem',
+              fontWeight: 'normal'
+            }}>
+              You have an <span style={{ fontWeight: 'bold' }}>empathy gap</span>
+            </h1>
+          )}
 
-        {result === 'rude' && (
-          <h1 className="text-5xl md:text-7xl font-bold text-[#403027] mb-8 text-center font-['Rokkitt',serif]">
-            Hmm... you might<br />just be rude...
-          </h1>
-        )}
+          {result === 'no-gap' && (
+            <h1 style={{
+              fontFamily: "'Rockwell', serif",
+              color: '#403027',
+              fontSize: '4rem',
+              marginBottom: '2rem',
+              fontWeight: 'normal'
+            }}>
+              You don't have an <span style={{ fontWeight: 'bold' }}>empathy gap</span>
+            </h1>
+          )}
 
-        <button
-          onClick={resetQuiz}
-          className="mt-8 bg-[#7ca0c2] hover:opacity-90 text-[#fef6e3] text-lg font-bold px-8 py-3 rounded-[17px] transition-opacity font-['Rokkitt',serif] italic"
-        >
-          Take Quiz Again
-        </button>
+          {result === 'rude' && (
+            <h1 style={{
+              fontFamily: "'Rockwell', serif",
+              color: '#403027',
+              fontSize: '4rem',
+              marginBottom: '2rem',
+              fontWeight: 'normal'
+            }}>
+              Hmm... you might<br />just be rude...
+            </h1>
+          )}
+
+          {/* Learn more link */}
+          <div style={{ marginTop: '2rem' }}>
+            <p style={{
+              fontFamily: "'Rockwell', serif",
+              color: '#403027',
+              fontSize: result === 'rude' ? '1.8rem' : '2.5rem',
+              marginBottom: '0.5rem'
+            }}>
+              {result === 'rude' ? 'Learn about empathy gaps anyway' : 'Learn about empathy gaps'}
+            </p>
+            <svg 
+              width="200" 
+              height="24" 
+              viewBox="0 0 200 24" 
+              fill="none"
+              style={{ marginTop: '0.5rem' }}
+            >
+              <line x1="0" y1="12" x2="180" y2="12" stroke="#403027" strokeWidth="2"/>
+              <path d="M175 6 L185 12 L175 18" stroke="#403027" strokeWidth="2" fill="none"/>
+            </svg>
+          </div>
+
+          {/* Done button - only for gap result */}
+          {config.showDoneButton && (
+            <button
+              onClick={resetQuiz}
+              style={{
+                backgroundColor: '#7ca0c2',
+                color: '#fef6e3',
+                fontFamily: "'Rockwell', serif",
+                fontStyle: 'italic',
+                fontSize: '2rem',
+                padding: '1rem 3rem',
+                borderRadius: '17px',
+                border: 'none',
+                cursor: 'pointer',
+                marginTop: '2rem',
+                boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)'
+              }}
+            >
+              DONE
+            </button>
+          )}
+        </div>
       </div>
     );
   }

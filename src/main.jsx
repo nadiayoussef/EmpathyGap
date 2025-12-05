@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import EmpathyQuiz from "./empathy-quiz";
 import { QuizResultsChart } from "./QuizResultsChart";
-import './fonts.css';
+import './index.css';
 
 const App = () => {
   const [view, setView] = useState(() => {
