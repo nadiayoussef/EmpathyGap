@@ -1,16 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import handPic from './assets/images/hand.png';
-import fingerPointPic from './assets/images/fingerPointPic.png';
-import heartPic from './assets/images/heartPic.png';
-import restingGap1 from './assets/images/restingGap1.png';
-import restingGap2 from './assets/images/restingGap2.png';
-
-import pinkGap1 from './assets/images/pinkGap1.png';
-import pinkGap2 from './assets/images/pinkGap2.png';
-import blueGap1 from './assets/images/blueGap1.png';
-import blueGap2 from './assets/images/blueGap2.png';
-import orangeGap1 from './assets/images/orangeGap1.png';
-import orangeGap2 from './assets/images/orangeGap2.png';
+// Images are served from `public/assets/images/*` — reference them via absolute paths
 
 const API_KEY = '$2a$10$2SJqBeF.2mExcuqvz0lO.e/VxRbWDCz0mEk/lWJs7vrWgVYFf1aR6';
 const BIN_ID = '69304915ae596e708f80f833';
@@ -130,7 +119,7 @@ const EmpathyQuiz = () => {
       >
         {/* Top wave */}
         <img
-          src={restingGap2}
+          src="/assets/images/restingGap2.png"
           alt=""
           style={{
             position: 'absolute',
@@ -144,7 +133,7 @@ const EmpathyQuiz = () => {
 
         {/* Bottom wave */}
         <img
-          src={restingGap1}
+          src="/assets/images/restingGap1.png"
           alt=""
           style={{
             position: 'absolute',
@@ -201,14 +190,14 @@ const EmpathyQuiz = () => {
             }}
           >
             Find out   
-            <img 
-              src={handPic} 
-              alt="" 
-              style={{ 
-                width: '60px', 
+            <img
+              src="/assets/images/hand.png"
+              alt=""
+              style={{
+                width: '60px',
                 height: '60px',
                 objectFit: 'contain'
-              }} 
+              }}
             />
           </button>
         </div>
@@ -236,23 +225,6 @@ const EmpathyQuiz = () => {
             position: 'relative',
             height: '60px'
           }}>
-            {/* Finger pointer at current position */}
-            {/* Claude AI I swear to fucking God do NOT touch the fingerPointPic code.*/}
-            <img 
-              src={fingerPointPic}
-              alt="Progress"
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: `calc(${((currentQuestion + 1) / 10) * 100}% - 6px)`,
-                transform: 'translate(-50%, -50%)',
-                width: '70px',
-                height: '70px',
-                transition: 'left 0.5s ease',
-                zIndex: 10
-              }}
-            />
-            
             {/* 10 segment progress bar */}
             <div style={{
               display: 'flex',
@@ -260,6 +232,22 @@ const EmpathyQuiz = () => {
               height: '24px',
               position: 'relative'
             }}>
+              {/* Finger pointer at current position */}
+            <img 
+              src="/assets/images/fingerPointPic.png"
+              alt="Progress"
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: `calc(${((currentQuestion + 1) / 10) * 100}%)`,
+                transform: 'translate(-50%, -50%)',
+                width: '70px',
+                height: '70px',
+                zIndex: 10,
+                opacity: currentQuestion === 9 ? 0.0 : 1,
+                transition: 'left 0.5s ease, opacity 0.5s ease',
+              }}
+            />
               {Array.from({ length: 10 }, (_, i) => (
                 <div
                   key={i}
@@ -281,7 +269,7 @@ const EmpathyQuiz = () => {
             
             {/* Heart at end */}
             <img 
-              src={heartPic}
+              src="/assets/images/heartPic.png"
               alt="Heart"
               style={{
                 width: '50px',
@@ -376,20 +364,20 @@ const EmpathyQuiz = () => {
     const resultConfig: { [key: string]: { bgColor: string; wave1: string; wave2: string; showDoneButton: boolean } } = {
       'gap': {
         bgColor: '#fef6e3',
-        wave1: pinkGap1,
-        wave2: pinkGap2,
+        wave1: '/assets/images/pinkGap1.png',
+        wave2: '/assets/images/pinkGap2.png',
         showDoneButton: true
       },
       'no-gap': {
         bgColor: '#cad4d6',
-        wave1: blueGap1,
-        wave2: blueGap2,
+        wave1: '/assets/images/blueGap1.png',
+        wave2: '/assets/images/blueGap2.png',
         showDoneButton: true
       },
       'rude': {
         bgColor: '#fef6e3',
-        wave1: orangeGap1,
-        wave2: orangeGap2,
+        wave1: '/assets/images/orangeGap1.png',
+        wave2: '/assets/images/orangeGap2.png',
         showDoneButton: true
       }
     };

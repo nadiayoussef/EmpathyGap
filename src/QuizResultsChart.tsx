@@ -74,7 +74,30 @@ export const QuizResultsChart = ({ width, height }: QuizResultsChartProps) => {
     return () => {
       window.removeEventListener('quizDataUpdated', handleUpdate);
     };
-  }, []);
+  }, []);   
+
+  useEffect(() => {
+  const interval = setInterval(async () => {
+    try {
+      const response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+        headers: { 'X-Master-Key': API_KEY }
+      });
+      const json = await response.json();
+      const responses: boolean[][] = json.record.responses || [];
+
+      // If the number of responses changed → refresh data
+      if (responses.length !== totalResponses) {
+        // triggers full reload + rerender
+        window.dispatchEvent(new Event('quizDataUpdated'));
+      }
+    } catch (err) {
+      console.error("Polling error:", err);
+    }
+  }, 5000); // ← poll every 5 seconds
+
+  return () => clearInterval(interval);
+}, [totalResponses]);
+
 
   // X axis scale - adjusted to start at 0.5 and end at 10.5 for full coverage
   const xScale = useMemo(() => {
