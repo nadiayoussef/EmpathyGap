@@ -25,6 +25,11 @@ export const QuizResultsChart = ({ width, height }: QuizResultsChartProps) => {
   const [loading, setLoading] = useState(true);
   const [totalResponses, setTotalResponses] = useState(0);
 
+  // Animation state
+  const [animatedData, setAnimatedData] = useState<QuizDataPoint[]>([]);
+  const [animatedLastResponse, setAnimatedLastResponse] = useState<boolean[] | null>(null);
+  const [isAnimating, setIsAnimating] = useState(false);
+
   const boundsWidth = width - MARGIN.right - MARGIN.left;
   const boundsHeight = height - MARGIN.top - MARGIN.bottom;
 
@@ -49,14 +54,46 @@ export const QuizResultsChart = ({ width, height }: QuizResultsChartProps) => {
           yesPercent: responses.length > 0 ? (count / responses.length) * 100 : 0
         }));
 
+          // Calculate previous (all but last response) data for animation start
+        const prevYesCounts = new Array(10).fill(0);
+        const prevResponses = responses.slice(0, -1);
+        prevResponses.forEach((response: boolean[]) => {
+          response.forEach((answer, index) => {
+            if (answer) prevYesCounts[index]++;
+          });
+        });
+
+        const prevChartData = prevYesCounts.map((count, i) => ({
+          x: i + 1,
+          yesPercent: prevResponses.length > 0 ? (count / prevResponses.length) * 100 : 0
+        }));
+
+        const currentLastResponse = responses.length > 0 ? responses[responses.length - 1] : null;
+        const previousLastResponse = responses.length > 1 ? responses[responses.length - 2] : null;
+
+        // Set final target data
         setData(chartData);
         setTotalResponses(responses.length);
-        setLastResponse(responses.length > 0 ? responses[responses.length - 1] : null);
+        setLastResponse(currentLastResponse);
+
+          // Start animation from previous state
+        if (responses.length > 1) {
+          setAnimatedData(prevChartData);
+          setAnimatedLastResponse(previousLastResponse);
+          setIsAnimating(true);
+        } else {
+          setAnimatedData(chartData);
+          setAnimatedLastResponse(currentLastResponse);
+        }
+
       } catch (error) {
         console.error('Error fetching data:', error);
-        setData(Array.from({ length: 10 }, (_, i) => ({ x: i + 1, yesPercent: 0 })));
+        const emptyData = Array.from({ length: 10 }, (_, i) => ({ x: i + 1, yesPercent: 0 }));
+        setData(emptyData);
+        setAnimatedData(emptyData);
         setTotalResponses(0);
         setLastResponse(null);
+        setAnimatedLastResponse(null);
       } finally {
         setLoading(false);
       }
@@ -75,6 +112,47 @@ export const QuizResultsChart = ({ width, height }: QuizResultsChartProps) => {
       window.removeEventListener('quizDataUpdated', handleUpdate);
     };
   }, []);   
+
+
+  // Animation effect - interpolate from previous to current
+  useEffect(() => {
+    if (!isAnimating || data.length === 0) return;
+
+    const duration = 1500; // 1.5 seconds
+    const startTime = performance.now();
+    const startData = [...animatedData];
+    const startLastResponse = animatedLastResponse ? [...animatedLastResponse] : null;
+
+    const animate = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      
+      // Easing function (ease-out cubic)
+      const eased = 1 - Math.pow(1 - progress, 3);
+
+      // Interpolate chart data
+      const interpolatedData = data.map((target, i) => ({
+        x: target.x,
+        yesPercent: startData[i] 
+          ? startData[i].yesPercent + (target.yesPercent - startData[i].yesPercent) * eased
+          : target.yesPercent
+      }));
+      setAnimatedData(interpolatedData);
+
+      // For last response, we snap to the new one partway through
+      if (progress > 0.3 && lastResponse !== startLastResponse) {
+        setAnimatedLastResponse(lastResponse);
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        setIsAnimating(false);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, [isAnimating, data, lastResponse]);
 
   useEffect(() => {
   const interval = setInterval(async () => {
@@ -113,7 +191,7 @@ export const QuizResultsChart = ({ width, height }: QuizResultsChartProps) => {
   }, [boundsHeight]);
 
   useEffect(() => {
-    if (data.length === 0) return;
+    if (animatedData.length === 0) return;
 
     const svgElement = d3.select(axesRef.current);
     svgElement.selectAll('*').remove();
@@ -165,17 +243,21 @@ export const QuizResultsChart = ({ width, height }: QuizResultsChartProps) => {
       .style('fill', '#5A93B5')
       .text("Percentage of 'Yes'");
 
-  }, [xScale, yScale, boundsHeight, boundsWidth, data]);
+  }, [xScale, yScale, boundsHeight, boundsWidth, animatedData]);
 
   if (loading) {
     return <div className="p-4">Loading results...</div>;
   }
 
+    // Use animated data for rendering
+  const displayData = animatedData.length > 0 ? animatedData : data;
+  const displayLastResponse = animatedLastResponse;
+
   // Extend data to edges for full coverage
   const extendedData: QuizDataPoint[] = [
-    { x: 0.5, yesPercent: data[0]?.yesPercent || 0 },
-    ...data,
-    { x: 10.5, yesPercent: data[9]?.yesPercent || 0 }
+    { x: 0.5, yesPercent: displayData[0]?.yesPercent || 0 },
+    ...displayData,
+    { x: 10.5, yesPercent: displayData[9]?.yesPercent || 0 }
   ];
 
   const areaBuilder = d3
@@ -188,8 +270,8 @@ export const QuizResultsChart = ({ width, height }: QuizResultsChartProps) => {
 
   const areaPath = areaBuilder(extendedData);
 
-  const lastResponseData: QuizDataPoint[] | null = lastResponse
-    ? lastResponse.map((answer, i) => ({
+ const lastResponseData: QuizDataPoint[] | null = displayLastResponse
+    ? displayLastResponse.map((answer, i) => ({
         x: i + 1,
         yesPercent: answer ? 80 : 20
       }))
