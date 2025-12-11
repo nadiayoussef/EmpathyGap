@@ -295,8 +295,8 @@ const EmpathyQuiz = () => {
             fontFamily: "'Rockwell', serif",
             fontWeight: 'normal',
             color: '#403027',
-            fontSize: '2rem',
-            marginBottom: '1rem'
+            fontSize: '4rem',
+            marginBottom: '1rem' // 2?
           }}>
             Question {currentQuestion + 1}
           </h2>
@@ -304,9 +304,9 @@ const EmpathyQuiz = () => {
             fontFamily: "'Rockwell', serif",
             fontWeight: 'bold',
             color: '#403027',
-            fontSize: '3rem',
+            fontSize: '6rem',
             textAlign: 'center',
-            marginBottom: '4rem',
+            marginBottom: '4rem', // 2?
             lineHeight: 1.2
           }}>
             {questions[currentQuestion]}
@@ -322,8 +322,8 @@ const EmpathyQuiz = () => {
                 fontFamily: "'Rockwell', serif",
                 fontWeight: 'normal',
                 fontStyle: 'italic',
-                fontSize: '2.5rem',
-                padding: '1.5rem 4rem',
+                fontSize: '5rem',
+                padding: '3rem 8rem',
                 borderRadius: '17px',
                 border: 'none',
                 cursor: 'pointer',
@@ -341,8 +341,8 @@ const EmpathyQuiz = () => {
                 fontFamily: "'Rockwell', serif",
                 fontWeight: 'normal',
                 fontStyle: 'italic',
-                fontSize: '2.5rem',
-                padding: '1.5rem 4rem',
+                fontSize: '5rem',
+                padding: '3rem 8rem',
                 borderRadius: '17px',
                 border: 'none',
                 cursor: 'pointer',

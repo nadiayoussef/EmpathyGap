@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import { curveCatmullRom } from 'd3';
 // import { curveMonotoneX } from 'd3';
 
-const MARGIN = { top: 30, right: 30, bottom: 50, left: 50 };
+const MARGIN = { top: 30, right: 30, bottom: 150, left: 200 };
 
 const API_KEY = '$2a$10$2SJqBeF.2mExcuqvz0lO.e/VxRbWDCz0mEk/lWJs7vrWgVYFf1aR6';
 const BIN_ID = '69304915ae596e708f80f833';
@@ -128,26 +128,42 @@ export const QuizResultsChart = ({ width, height }: QuizResultsChartProps) => {
 
     xAxis.append('text')
       .attr('x', boundsWidth / 4)
-      .attr('y', 30)
+      .attr('y', 40)
       .attr('text-anchor', 'middle')
-      .style('font-size', '14px')
-      .style('font-weight', 'bold')
-      .style('fill', 'currentColor')
+      .style('font-family', "'Rockwell', serif")
+      .style('font-size', '30px')
+      .style('fill', '#403027')
       .text('Community');
 
     xAxis.append('text')
       .attr('x', (boundsWidth / 4) * 3)
-      .attr('y', 30)
+      .attr('y', 40)
       .attr('text-anchor', 'middle')
-      .style('font-size', '14px')
-      .style('font-weight', 'bold')
-      .style('fill', 'currentColor')
+      .style('font-family', "'Rockwell', serif")
+      .style('font-size', '30px')
+      .style('fill', '#403027')
       .text('Personal');
 
     const yAxisGenerator = d3.axisLeft(yScale)
       .ticks(10)
       .tickFormat(d => `${d}%`);
-    svgElement.append('g').call(yAxisGenerator);
+    // svgElement.append('g').call(yAxisGenerator);
+    const yAxis = svgElement.append('g').call(yAxisGenerator);
+    yAxis.selectAll('text')
+      .style('font-family', "'Rockwell', serif")
+      .style('font-size', '30px')
+      .style('fill', '#403027');
+
+       // Y-axis label
+    svgElement.append('text')
+      .attr('transform', 'rotate(-90)')
+      .attr('x', -boundsHeight / 2)
+      .attr('y', -125)
+      .attr('text-anchor', 'middle')
+      .style('font-family', "'Rockwell', serif")
+      .style('font-size', '30px')
+      .style('fill', '#5A93B5')
+      .text("Percentage of 'Yes'");
 
   }, [xScale, yScale, boundsHeight, boundsWidth, data]);
 
@@ -211,6 +227,10 @@ export const QuizResultsChart = ({ width, height }: QuizResultsChartProps) => {
     ? betweenAreaBuilder(d3.range(extendedData.length)) 
     : null;
 
+     // Legend positioning
+    const legendX = boundsWidth - 120;
+    const legendY = 10;
+
   return (
     <div>
       <svg width="100%" height={height}
@@ -241,6 +261,32 @@ export const QuizResultsChart = ({ width, height }: QuizResultsChartProps) => {
               strokeLinecap="round"
             />
           )}
+            {/* Legend - below x-axis */}
+          <g transform={`translate(${boundsWidth / 2}, ${boundsHeight + 100}) scale(3)`}>
+
+          {/* YOU legend item */}
+            {lastResponsePath && (
+              <g transform="translate(-200, 0)">
+                <rect x={-5} y={-5} width={20} height={10} fill="#f3bbd1" fillOpacity={0.8} stroke="#F66FAC" strokeWidth={1} />
+                <text x={22} y={4} fontSize={12} fill="#403027" fontFamily="'Rockwell', serif" fontWeight="bold">You</text>
+              </g>
+            )}
+
+            {/* Gap item */}
+            {lastResponsePath && (
+              <g transform="translate(-70, 0)">
+                <rect x={-5} y={-5} width={20} height={10} fill="#CDA4C7" fillOpacity={0.8} stroke="#c97ebeff" strokeWidth={1} />
+                <text x={22} y={4} fontSize={12} fill="#403027" fontFamily="'Rockwell', serif" fontWeight="bold">Empathy Gap</text>
+              </g>// 205, 164, 199
+            )}
+
+            {/* The Gallery legend item */}
+            <g transform="translate(100, 0)">
+              <rect x={-5} y={-5} width={20} height={10} fill="#a0bfd8" fillOpacity={0.8} stroke="#5A93B5" strokeWidth={1} />
+              <text x={22} y={4} fontSize={12} fill="#403027" fontFamily="'Rockwell', serif" fontWeight="bold">Boston Cyberarts Visitors</text>
+            </g>
+
+          </g>
         </g>
         <g
           ref={axesRef}
