@@ -316,7 +316,7 @@ export const QuizResultsChart = ({ width, height }: QuizResultsChartProps) => {
   return (
     <div>
       <svg width="100%" height={height}
-      viewBox='0 0 ${width} ${height}'
+      viewBox={`0 0 ${width} ${height}`}
       preserveAspectRatio='none'>
         <rect width={width} height={height} fill="#fffaf0" />
         <g transform={`translate(${MARGIN.left},${MARGIN.top})`}>
