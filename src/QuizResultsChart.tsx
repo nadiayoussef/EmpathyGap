@@ -357,7 +357,7 @@ export const QuizResultsChart = ({ width, height }: QuizResultsChartProps) => {
             {/* Gap item */}
             {lastResponsePath && (
               <g transform="translate(-70, 0)">
-                <rect x={-5} y={-5} width={20} height={10} fill="#CDA4C7" fillOpacity={0.8} stroke="#c97ebeff" strokeWidth={1} />
+                <rect x={-5} y={-5} width={20} height={10} fill="#c380c4ff" fillOpacity={0.8} stroke="#c97ebeff" strokeWidth={1} />
                 <text x={22} y={4} fontSize={12} fill="#403027" fontFamily="'Rockwell', serif" fontWeight="bold">Empathy Gap</text>
               </g>
             )}
