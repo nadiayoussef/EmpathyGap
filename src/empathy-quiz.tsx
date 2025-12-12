@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 // Images are served from `public/assets/images/*` — reference them via absolute paths
 
-const API_KEY = '$2a$10$2SJqBeF.2mExcuqvz0lO.e/VxRbWDCz0mEk/lWJs7vrWgVYFf1aR6';
-const BIN_ID = '69304915ae596e708f80f833';
+const API_KEY = '$2a$10$kJKCv7tKOSVEcERtR2jxpeFG9mRkHBasPVyP54BIA6QiXvJXvZB5K';
+const BIN_ID = '693c489d43b1c97be9e9b4b9';
 
 const EmpathyQuiz = () => {
   const [screen, setScreen] = useState('intro');
