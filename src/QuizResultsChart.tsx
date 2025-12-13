@@ -1,12 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import * as d3 from 'd3';
-import { curveCatmullRom } from 'd3';
-// import { curveMonotoneX } from 'd3';
 
 const MARGIN = { top: 30, right: 30, bottom: 150, left: 200 };
 
-const API_KEY = '$2a$10$kJKCv7tKOSVEcERtR2jxpeFG9mRkHBasPVyP54BIA6QiXvJXvZB5K';
-const BIN_ID = '693c489d43b1c97be9e9b4b9';
+const API_KEY = '$2a$10$2WaSjbnj2iTAd3ctRGEey.NxuNOK2hFD3lo5xw9NMNPm.U0paSkvm';
+const BIN_ID = '693d99f343b1c97be9ebe948';
 
 type QuizDataPoint = {
   x: number;

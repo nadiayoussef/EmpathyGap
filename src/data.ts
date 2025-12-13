@@ -8,8 +8,8 @@ export type QuizData = {
   totalResponses: number;
 };
 
-const API_KEY = '$2a$10$kJKCv7tKOSVEcERtR2jxpeFG9mRkHBasPVyP54BIA6QiXvJXvZB5K';
-const BIN_ID = '693c489d43b1c97be9e9b4b9';
+const API_KEY = '$2a$10$2WaSjbnj2iTAd3ctRGEey.NxuNOK2hFD3lo5xw9NMNPm.U0paSkvm';
+const BIN_ID = '693d99f343b1c97be9ebe948';
 
 export const fetchQuizData = async (): Promise<QuizData> => {
   try {

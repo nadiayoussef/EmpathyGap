@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-// Images are served from `public/assets/images/*` — reference them via absolute paths
 
-const API_KEY = '$2a$10$kJKCv7tKOSVEcERtR2jxpeFG9mRkHBasPVyP54BIA6QiXvJXvZB5K';
-const BIN_ID = '693c489d43b1c97be9e9b4b9';
+const API_KEY = '$2a$10$2WaSjbnj2iTAd3ctRGEey.NxuNOK2hFD3lo5xw9NMNPm.U0paSkvm';
+const BIN_ID = '693d99f343b1c97be9ebe948';
 
 const EmpathyQuiz = () => {
   const [screen, setScreen] = useState('intro');
@@ -48,6 +47,7 @@ const EmpathyQuiz = () => {
     }
   };
 
+  // Only poll for new responses when on results screen
   useEffect(() => {
     if (screen !== 'result') return;
 
@@ -68,7 +68,7 @@ const EmpathyQuiz = () => {
       }
     };
 
-    const interval = setInterval(checkForNewResponses, 3000);
+    const interval = setInterval(checkForNewResponses, 5000);
     
     return () => clearInterval(interval);
   }, [screen, responseCount]);
@@ -104,8 +104,6 @@ const EmpathyQuiz = () => {
     setAnswers([]);
   };
 
-  const progress = ((currentQuestion) / questions.length) * 100;
-
   if (screen === 'intro') {
     return (
       <main 
@@ -117,7 +115,6 @@ const EmpathyQuiz = () => {
           overflow: 'hidden'
         }}
       >
-        {/* Top wave */}
         <img
           src="/assets/images/restingGap2.png"
           alt=""
@@ -130,8 +127,6 @@ const EmpathyQuiz = () => {
             zIndex: 1
           }}
         />
-
-        {/* Bottom wave */}
         <img
           src="/assets/images/restingGap1.png"
           alt=""
@@ -145,7 +140,6 @@ const EmpathyQuiz = () => {
           }}
         />
         
-        {/* Main content - centered using absolute positioning */}
         <div 
           style={{ 
             position: 'absolute',
@@ -170,7 +164,6 @@ const EmpathyQuiz = () => {
             What would<br />YOU do?
           </h1>
           
-          {/* Button */}
           <button
             onClick={() => setScreen('quiz')}
             style={{
@@ -193,11 +186,7 @@ const EmpathyQuiz = () => {
             <img
               src="/assets/images/hand.png"
               alt=""
-              style={{
-                width: '60px',
-                height: '60px',
-                objectFit: 'contain'
-              }}
+              style={{ width: '60px', height: '60px', objectFit: 'contain' }}
             />
           </button>
         </div>
@@ -217,7 +206,6 @@ const EmpathyQuiz = () => {
           padding: '2rem 4rem'
         }}
       >
-        {/* Progress Bar */}
         <div style={{ marginBottom: '2rem', position: 'relative' }}>
           <div style={{ 
             display: 'flex', 
@@ -225,29 +213,27 @@ const EmpathyQuiz = () => {
             position: 'relative',
             height: '60px'
           }}>
-            {/* 10 segment progress bar */}
             <div style={{
               display: 'flex',
               flex: 1,
               height: '24px',
               position: 'relative'
             }}>
-              {/* Finger pointer at current position */}
-            <img 
-              src="/assets/images/fingerPointPic.png"
-              alt="Progress"
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: `calc(${((currentQuestion + 1) / 10) * 100}%)`,
-                transform: 'translate(-50%, -50%)',
-                width: '70px',
-                height: '70px',
-                zIndex: 10,
-                opacity: currentQuestion === 9 ? 0.0 : 1,
-                transition: 'left 0.5s ease, opacity 0.5s ease',
-              }}
-            />
+              <img 
+                src="/assets/images/fingerPointPic.png"
+                alt="Progress"
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: `calc(${((currentQuestion + 1) / 10) * 100}%)`,
+                  transform: 'translate(-50%, -50%)',
+                  width: '70px',
+                  height: '70px',
+                  zIndex: 10,
+                  opacity: currentQuestion === 9 ? 0.0 : 1,
+                  transition: 'left 0.5s ease, opacity 0.5s ease',
+                }}
+              />
               {Array.from({ length: 10 }, (_, i) => (
                 <div
                   key={i}
@@ -267,20 +253,14 @@ const EmpathyQuiz = () => {
               ))}
             </div>
             
-            {/* Heart at end */}
             <img 
               src="/assets/images/heartPic.png"
               alt="Heart"
-              style={{
-                width: '50px',
-                height: '50px',
-                marginLeft: '1rem'
-              }}
+              style={{ width: '50px', height: '50px', marginLeft: '1rem' }}
             />
           </div>
         </div>
 
-        {/* Question content */}
         <div style={{
           flex: 1,
           display: 'flex',
@@ -296,7 +276,7 @@ const EmpathyQuiz = () => {
             fontWeight: 'normal',
             color: '#403027',
             fontSize: '4rem',
-            marginBottom: '1rem' // 2?
+            marginBottom: '1rem'
           }}>
             Question {currentQuestion + 1}
           </h2>
@@ -306,13 +286,12 @@ const EmpathyQuiz = () => {
             color: '#403027',
             fontSize: '6rem',
             textAlign: 'center',
-            marginBottom: '4rem', // 2?
+            marginBottom: '4rem',
             lineHeight: 1.2
           }}>
             {questions[currentQuestion]}
           </h3>
 
-          {/* Answer Buttons */}
           <div style={{ display: 'flex', gap: '2rem' }}>
             <button
               onClick={() => handleAnswer(true)}
@@ -398,131 +377,45 @@ const EmpathyQuiz = () => {
           justifyContent: 'center'
         }}
       >
-        {/* Decorative waves */}
         {result === 'no-gap' ? (
           <>
-            {/* Blue: both waves layered at top */}
-            <img
-              src={config.wave1}
-              alt=""
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: 'auto',
-                zIndex: 1
-              }}
-            />
-            <img
-              src={config.wave2}
-              alt=""
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: 'auto',
-                zIndex: 2
-              }}
-            />
+            <img src={config.wave1} alt="" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: 'auto', zIndex: 1 }} />
+            <img src={config.wave2} alt="" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: 'auto', zIndex: 2 }} />
           </>
         ) : (
           <>
-            {/* Pink/Orange: wave2 at top, wave1 at bottom */}
-            <img
-              src={config.wave2}
-              alt=""
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: 'auto',
-                zIndex: 1
-              }}
-            />
-            <img
-              src={config.wave1}
-              alt=""
-              style={{
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                width: '100%',
-                height: 'auto',
-                zIndex: 1
-              }}
-            />
+            <img src={config.wave2} alt="" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: 'auto', zIndex: 1 }} />
+            <img src={config.wave1} alt="" style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: 'auto', zIndex: 1 }} />
           </>
         )}
 
-        {/* Main content */}
-        <div style={{ 
-          position: 'relative', 
-          zIndex: 10, 
-          textAlign: 'center',
-          marginTop: '15%'
-        }}>
+        <div style={{ position: 'relative', zIndex: 10, textAlign: 'center', marginTop: '15%' }}>
           {result === 'gap' && (
-            <h1 style={{
-              fontFamily: "'Rockwell', serif",
-              color: '#403027',
-              fontSize: '4rem',
-              marginBottom: '2rem',
-              fontWeight: 'normal'
-            }}>
+            <h1 style={{ fontFamily: "'Rockwell', serif", color: '#403027', fontSize: '4rem', marginBottom: '2rem', fontWeight: 'normal' }}>
               You have an <span style={{ fontWeight: 'bold' }}>empathy gap</span>
             </h1>
           )}
-
           {result === 'no-gap' && (
-            <h1 style={{
-              fontFamily: "'Rockwell', serif",
-              color: '#403027',
-              fontSize: '4rem',
-              marginBottom: '2rem',
-              fontWeight: 'normal'
-            }}>
+            <h1 style={{ fontFamily: "'Rockwell', serif", color: '#403027', fontSize: '4rem', marginBottom: '2rem', fontWeight: 'normal' }}>
               You don't have an <span style={{ fontWeight: 'bold' }}>empathy gap</span>
             </h1>
           )}
-
           {result === 'rude' && (
-            <h1 style={{
-              fontFamily: "'Rockwell', serif",
-              color: '#403027',
-              fontSize: '4rem',
-              marginBottom: '2rem',
-              fontWeight: 'normal'
-            }}>
+            <h1 style={{ fontFamily: "'Rockwell', serif", color: '#403027', fontSize: '4rem', marginBottom: '2rem', fontWeight: 'normal' }}>
               Hmm... you might<br />just be rude...
             </h1>
           )}
 
-          {/* Learn more link */}
           <div style={{ marginTop: '2rem' }}>
-            <p style={{
-              fontFamily: "'Rockwell', serif",
-              color: '#403027',
-              fontSize: result === 'rude' ? '1.8rem' : '2.5rem',
-              marginBottom: '0.5rem'
-            }}>
+            <p style={{ fontFamily: "'Rockwell', serif", color: '#403027', fontSize: result === 'rude' ? '1.8rem' : '2.5rem', marginBottom: '0.5rem' }}>
               {result === 'rude' ? 'Learn about empathy gaps anyway' : 'Learn about empathy gaps'}
             </p>
-            <svg 
-              width="200" 
-              height="24" 
-              viewBox="0 0 200 24" 
-              fill="none"
-              style={{ marginTop: '0.5rem' }}
-            >
+            <svg width="200" height="24" viewBox="0 0 200 24" fill="none" style={{ marginTop: '0.5rem' }}>
               <line x1="0" y1="12" x2="180" y2="12" stroke="#403027" strokeWidth="2"/>
               <path d="M175 6 L185 12 L175 18" stroke="#403027" strokeWidth="2" fill="none"/>
             </svg>
           </div>
 
-          {/* Done button - only for gap result */}
           {config.showDoneButton && (
             <button
               onClick={resetQuiz}
