@@ -169,7 +169,7 @@ export const QuizResultsChart = ({ width, height }: QuizResultsChartProps) => {
     } catch (err) {
       console.error("Polling error:", err);
     }
-  }, 5000); // ← poll every 5 seconds
+  }, 60000); // ← poll every 5 seconds
 
   return () => clearInterval(interval);
 }, [totalResponses]);
